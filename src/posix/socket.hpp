@@ -106,7 +106,23 @@ public:
         return setsockopt(fd_, level, option_name, v, socklen_t(sizeof(v)));
     }
 
-    int descriptor() const { return fd_; }
+    template <class T>
+    int connect(const T* addr)
+    {
+        return ::connect(fd_, (const sockaddr*)addr, sizeof(T));
+    }
+
+    int accept()
+    {
+        return ::accept(fd_, nullptr, nullptr);
+    }
+
+    // UNTESTED
+    template <class T>
+    int accept(const T* addr)
+    {
+        return ::accept(fd_, (sockaddr*)addr, sizeof(T));
+    }
 };
 
 }

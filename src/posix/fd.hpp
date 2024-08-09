@@ -68,6 +68,7 @@ public:
         return total_bytes_written;
     }
 
+    int descriptor() const { return fd_; }
 };
 
 }
