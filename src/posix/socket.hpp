@@ -13,12 +13,31 @@
 
 namespace posix {
 
+namespace internal {
+
+// Not used yet
+enum socket_options
+{
+    SOCKET_OPT_NONE = 0,
+    SOCKET_OPT_AUTOLOOP
+};
+
+}
+
 class socket : public fd
 {
 public:
     socket() = default;
 
     constexpr explicit socket(int v) : fd{v} {}
+
+    // DEBT: Need to loop everywhere, not loop anywhere, or set up something like
+    // a template <bool loop> mechanism - unless 'flags' itself can reveal that behavior
+
+    int recv(void* buffer, size_t length, int flags) const
+    {
+        return ::recv(fd_, buffer, length, flags);
+    }
 
     template <class T>
     int recv(T* v, int flags) const
