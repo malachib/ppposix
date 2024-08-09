@@ -119,9 +119,11 @@ public:
 
     // UNTESTED
     template <class T>
-    int accept(const T* addr)
+    int accept(T* addr)
     {
-        return ::accept(fd_, (sockaddr*)addr, sizeof(T));
+        // DEBT: Assert that output addr_len matches input
+        socklen_t addr_len = sizeof(T);
+        return ::accept(fd_, (sockaddr*)addr, &addr_len);
     }
 };
 
